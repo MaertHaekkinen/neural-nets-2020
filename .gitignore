@@ -45,3 +45,6 @@ geckodriver.log
 
 # Portable Network Graphics
 *.png
+
+#Thumbs
+.db
