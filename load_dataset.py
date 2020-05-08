@@ -5,8 +5,7 @@ from keras.preprocessing.image import img_to_array, array_to_img
 
 def load_dataset(path="./rear_signal_dataset", difficulty="Easy", sequence_limit=12):
     image_count = 0
-    sequence_limit = 12
-    resize_dimension = 64
+    resize_dimension = 128
     X_train = []
     Y_train = []
     with open("{0}/{1}.txt".format(path, difficulty)) as f:
@@ -23,8 +22,7 @@ def load_dataset(path="./rear_signal_dataset", difficulty="Easy", sequence_limit
             image_count += len(images[0:sequence_limit])
             img_list = []
             for img in images[0:sequence_limit]:
-                img = Image.open(img)
-                img_list.append(cv2.resize(img_to_array(img), dsize=(resize_dimension, resize_dimension)))
+                img_list.append(cv2.cvtColor(cv2.resize(cv2.imread(img), dsize=(resize_dimension, resize_dimension)), cv2.COLOR_BGR2RGB))
             X_train.append(img_list)
             Y_train.append(folder_components[-2])
     return X_train, Y_train, image_count

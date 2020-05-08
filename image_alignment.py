@@ -3,8 +3,8 @@ import cv2
 import numpy as np
 
 # https://www.learnopencv.com/image-alignment-feature-based-using-opencv-c-python/
-MAX_FEATURES = 50000
-GOOD_MATCH_PERCENT = 0.1
+MAX_FEATURES = 10000
+GOOD_MATCH_PERCENT = 0.25
 
 def align_images(img1, img2):
 
@@ -30,7 +30,7 @@ def align_images(img1, img2):
 
     # Draw top matches
     imMatches = cv2.drawMatches(img1, keypoints1, img2, keypoints2, matches, None)
-    cv2.imwrite("matches.jpg", imMatches)
+    cv2.imwrite("images/matches.jpg", imMatches)
 
     # Extract location of good matches
     points1 = np.zeros((len(matches), 2), dtype=np.float32)
