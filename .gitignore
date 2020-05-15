@@ -47,3 +47,10 @@ geckodriver.log
 
 #Thumbs
 .db
+!rear_signal_dataset/*/*/*/difference
+!rear_signal_dataset/*/*/difference/*.png
+!rear_signal_dataset/*/*/difference/*.jpg
+!rear_signal_dataset/*/*/*/difference/*.png
+!rear_signal_dataset/*/*/*/difference/*.jpg
+!rear_signal_dataset/*/*/*/*/difference/*.png
+!rear_signal_dataset/*/*/*/*/difference/*.jpg
