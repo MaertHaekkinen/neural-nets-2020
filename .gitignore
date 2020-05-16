@@ -54,3 +54,10 @@ geckodriver.log
 !rear_signal_dataset/*/*/*/difference/*.jpg
 !rear_signal_dataset/*/*/*/*/difference/*.png
 !rear_signal_dataset/*/*/*/*/difference/*.jpg
+!rear_signal_dataset/*/*/*/flow_fields
+!rear_signal_dataset/*/*/flow_fields/*.png
+!rear_signal_dataset/*/*/flow_fields/*.jpg
+!rear_signal_dataset/*/*/*/flow_fields/*.png
+!rear_signal_dataset/*/*/*/flow_fields/*.jpg
+!rear_signal_dataset/*/*/*/*/flow_fields/*.png
+!rear_signal_dataset/*/*/*/*/flow_fields/*.jpg
