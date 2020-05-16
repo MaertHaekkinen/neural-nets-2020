@@ -26,10 +26,9 @@ def load_dataset(path="./rear_signal_dataset", difficulty="All", sequence_limit=
             folder = "{0}/{1}/{2}".format(path, base, (base + "_" + str(folder_components[-2])))
             folder += "/" + (str("_".join(folder_components)))
             try:
-                os.makedirs(folder+"/difference")
+                os.makedirs(folder+"/flow_fields")
             except: 
                 pass
-            os.rename(folder+"/difference", folder+"/flow_fields")
             try:
                 os.makedirs(folder+"/warped")
             except:
