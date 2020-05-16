@@ -3,14 +3,18 @@ import cv2
 from PIL import Image
 from keras.preprocessing.image import img_to_array, array_to_img
 
-def load_dataset(path="./rear_signal_dataset", difficulty="Moderate", sequence_limit=16):
+def load_dataset(path="./rear_signal_dataset", difficulty="All", sequence_limit=16):
     image_count = 0
     resize_dimension = 128
     X_train = []
     X_test = []
     Y_train = []
     Y_test = []
-    X_diff_paths = []
+    X_train_flow_paths = []
+    X_test_flow_paths = []
+    X_train_warped_paths = []
+    X_test_warped_paths = []
+    X_train_diff_paths = []
     X_test_diff_paths = []
     with open("{0}/{1}.txt".format(path, difficulty)) as f:
         content = f.readlines()
@@ -23,22 +27,39 @@ def load_dataset(path="./rear_signal_dataset", difficulty="Moderate", sequence_l
             folder += "/" + (str("_".join(folder_components)))
             try:
                 os.makedirs(folder+"/difference")
+            except: 
+                pass
+            os.rename(folder+"/difference", folder+"/flow_fields")
+            try:
+                os.makedirs(folder+"/warped")
+            except:
+                pass
+            try:
+                os.makedirs(folder+"/difference")
             except:
                 pass
             folder += "/light_mask"
             images = [folder + "/" + f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
-            image_count += len(images[0:sequence_limit])
+            image_count += len(images)
             img_list = []
+            flow_path_list = []
+            warped_path_list = []
             diff_path_list = []
-            for img in images[0:sequence_limit]:
+            for img in images:
                 img_list.append(cv2.cvtColor(cv2.resize(cv2.imread(img), dsize=(resize_dimension, resize_dimension)), cv2.COLOR_BGR2RGB))
-                diff_path_list.append(img.replace('/light_mask','/difference'))
+                flow_path_list.append(img.replace('/light_mask','/flow_fields'))
+                warped_path_list.append(img.replace('/light_mask','warped'))
+                diff_path_list.append(img.replace('light_mask','difference'))
             if("test-" in folder):
                 X_test.append(img_list)
                 Y_test.append(folder_components[-2])
+                X_test_flow_paths.append(flow_path_list)
+                X_test_warped_paths.append(warped_path_list)
                 X_test_diff_paths.append(diff_path_list)
             else:
                 X_train.append(img_list)
                 Y_train.append(folder_components[-2])
-                X_diff_paths.append(diff_path_list)
-    return X_train, Y_train, X_diff_paths, X_test, Y_test, X_test_diff_paths, image_count
+                X_train_flow_paths.append(flow_path_list)
+                X_train_warped_paths.append(warped_path_list)
+                X_train_diff_paths.append(diff_path_list)
+    return X_train, Y_train, X_train_flow_paths, X_train_warped_paths, X_train_diff_paths, X_test, Y_test, X_test_flow_paths, X_test_warped_paths, X_test_diff_paths, image_count
