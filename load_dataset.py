@@ -47,7 +47,7 @@ def load_dataset(path="./rear_signal_dataset", difficulty="All", sequence_limit=
             for img in images:
                 img_list.append(cv2.cvtColor(cv2.resize(cv2.imread(img), dsize=(resize_dimension, resize_dimension)), cv2.COLOR_BGR2RGB))
                 flow_path_list.append(img.replace('/light_mask','/flow_fields'))
-                warped_path_list.append(img.replace('/light_mask','warped'))
+                warped_path_list.append(img.replace('/light_mask','/warped').replace('.png','.jpg'))
                 diff_path_list.append(img.replace('light_mask','difference'))
             if("test-" in folder):
                 X_test.append(img_list)
