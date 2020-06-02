@@ -78,7 +78,7 @@ def create_train_and_validation_set(path, difficulty):
     for train_folder in train_folder_list:
         count_train_seq += all_not_test_folder_names[train_folder]
     
-    test_folder_list = list(all_not_test_folder_names.keys())
+    test_folder_list = list(all_test_folder_names.keys())
     print('\nfinal train set contains ', count_train_seq, ' image sequences (', round(count_train_seq/count_not_test_img_seq*100), '% )')
     print('final validation set contains ', count_valid_seq, ' image sequences (', round(count_valid_seq/count_not_test_img_seq*100),'% )')    
     print('final test set contains ', count_test_img_seq, ' image sequences')
