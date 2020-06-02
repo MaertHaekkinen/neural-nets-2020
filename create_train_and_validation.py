@@ -36,8 +36,8 @@ def get_folder_names_dict(path, difficulty):
 
     count_not_test_img_seq = sum(all_not_test_folder_names.values())
     count_test_img_seq = sum(all_test_folder_names.values())
-    print('total number of non-test folders is  ', len(all_not_test_folder_names) , ' for difficulty ', difficulty)
-    print('total number of NOT test image sequences is ', count_not_test_img_seq)
+    print('total number of non-test folders is ', len(all_not_test_folder_names) , ' for difficulty ', difficulty)
+    print('total number of non-test image sequences is ', count_not_test_img_seq)
     print('total number of test image sequences is ', count_test_img_seq)
     
     return all_not_test_folder_names, all_test_folder_names, count_not_test_img_seq, count_test_img_seq
