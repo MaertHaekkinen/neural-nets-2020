@@ -4,11 +4,14 @@ import os
 def get_folder_names_dict(path, difficulty):
     """
     Returns: 
-    dict: dictionary, where keys are folder names and 
+    dict: dictionary, where keys are NON test folder names and 
+    values represent the number of image sequences given folder contains
+    dict: dictionary, where keys are TEST folder names and 
     values represent the number of image sequences given folder contains
     int: total number of images sequences in all non test folders
     """
     all_not_test_folder_names = {}
+    all_test_folder_names = {}
 
     f = open("{0}/{1}.txt".format(path, difficulty))
     content = f.readlines()
@@ -18,8 +21,6 @@ def get_folder_names_dict(path, difficulty):
         folder_components = folder.split("_")
         folder_components[-1] = folder_components[-1][:-1]
         folder_name = str("_".join(folder_components))
-        if("test-" in folder_name):
-            continue
 
         # count the number of images in given folder
         base = str("_".join(folder_components[:-2]))
@@ -28,12 +29,18 @@ def get_folder_names_dict(path, difficulty):
         images = [folder + "/" + f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
 
         # number of sequeces we get from a given folder (e.g. 18 pictures is 3 sequences, 1-16, 2-17, 3-18)
-        all_not_test_folder_names[folder_name] = len(images) - 15
+        if("test-" in folder_name):
+            all_test_folder_names[folder_name] = len(images) - 15
+        else:
+            all_not_test_folder_names[folder_name] = len(images) - 15
 
-    count_img_seq = sum(all_not_test_folder_names.values())
+    count_not_test_img_seq = sum(all_not_test_folder_names.values())
+    count_test_img_seq = sum(all_test_folder_names.values())
     print('total number of non-test folders is  ', len(all_not_test_folder_names) , ' for difficulty ', difficulty)
-    print('total number of image sequences is ', count_img_seq)
-    return all_not_test_folder_names, count_img_seq
+    print('total number of NOT test image sequences is ', count_not_test_img_seq)
+    print('total number of test image sequences is ', count_test_img_seq)
+    
+    return all_not_test_folder_names, all_test_folder_names, count_not_test_img_seq, count_test_img_seq
 
 
 def create_train_and_validation_set(path, difficulty):
@@ -45,8 +52,7 @@ def create_train_and_validation_set(path, difficulty):
     int: number of images sequences in validation set
     """
     # get non test folder names
-    all_not_test_folder_names, count_img_seq = get_folder_names_dict(path, difficulty)
-    
+    all_not_test_folder_names, all_test_folder_names, count_not_test_img_seq, count_test_img_seq = get_folder_names_dict(path, difficulty)
     
     # each folder contains different amount of sequences
     # randomly start adding FOLDERS to validation set, until we have reach 30%
@@ -63,7 +69,7 @@ def create_train_and_validation_set(path, difficulty):
 
         count_valid_seq += all_not_test_folder_names[folder_name] # find how many sequences folder contains
         # we have gotten enough folder for validation set
-        if count_valid_seq > int(count_img_seq*0.3):
+        if count_valid_seq > int(count_not_test_img_seq*0.3):
             break
 
     # creates train set
@@ -71,9 +77,11 @@ def create_train_and_validation_set(path, difficulty):
     count_train_seq = 0 # number of sequences in training data
     for train_folder in train_folder_list:
         count_train_seq += all_not_test_folder_names[train_folder]
-
-    print('\nfinal train set contains ', count_train_seq, ' image sequences (', round(count_train_seq/count_img_seq*100), '% )')
-    print('final validation set contains ', count_valid_seq, ' image sequences (', round(count_valid_seq/count_img_seq*100),'% )')
     
-    return train_folder_list, valid_folder_list, count_train_seq, count_valid_seq
+    test_folder_list = list(all_not_test_folder_names.keys())
+    print('\nfinal train set contains ', count_train_seq, ' image sequences (', round(count_train_seq/count_not_test_img_seq*100), '% )')
+    print('final validation set contains ', count_valid_seq, ' image sequences (', round(count_valid_seq/count_not_test_img_seq*100),'% )')    
+    print('final test set contains ', count_test_img_seq, ' image sequences')
+    
+    return train_folder_list, valid_folder_list, test_folder_list, count_train_seq, count_valid_seq, count_test_img_seq
 
