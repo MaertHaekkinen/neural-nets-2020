@@ -25,14 +25,15 @@ def get_folder_names_dict(path, difficulty):
         # count the number of images in given folder
         base = str("_".join(folder_components[:-2]))
         folder = "{0}/{1}/{2}".format(path, base, (base + "_" + str(folder_components[-2])))
-        folder += "/" + folder_name + "/light_mask"
-        images = [folder + "/" + f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
+        folder += "/" + folder_name 
+        folder_mask = folder + "/light_mask"
+        images = [folder_mask + "/" + f for f in os.listdir(folder_mask) if os.path.isfile(os.path.join(folder_mask, f))]
 
         # number of sequeces we get from a given folder (e.g. 18 pictures is 3 sequences, 1-16, 2-17, 3-18)
         if("test-" in folder_name):
-            all_test_folder_names[folder_name] = len(images) - 15
+            all_test_folder_names[folder] = len(images) - 15
         else:
-            all_not_test_folder_names[folder_name] = len(images) - 15
+            all_not_test_folder_names[folder] = len(images) - 15
 
     count_not_test_img_seq = sum(all_not_test_folder_names.values())
     count_test_img_seq = sum(all_test_folder_names.values())
