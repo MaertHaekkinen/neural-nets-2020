@@ -146,7 +146,8 @@ class ImageSequenceGenerator:
                     os.makedirs(folder+"/difference")
                 except:
                     pass
-                folder += "/light_mask"
+                #folder += "/light_mask"
+                folder += "/difference"
                 images = [folder + "/" + f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
                 self.image_count += len(images)
                 
@@ -168,16 +169,16 @@ class ImageSequenceGenerator:
                         img_array = img_to_array(img_load)
                         img_seq_list.append(img_array)
 
-                        flow_path_list.append(img.replace('/light_mask','/flow_fields'))
-                        warped_path_list.append(img.replace('/light_mask','warped'))
-                        diff_path_list.append(img.replace('light_mask','difference'))
+                        #flow_path_list.append(img.replace('/light_mask','/flow_fields'))
+                        #warped_path_list.append(img.replace('/light_mask','warped'))
+                        #diff_path_list.append(img.replace('light_mask','difference'))
 
                     self.seq_count += 1
                     X_data.append(np.asarray(img_seq_list)) 
                     Y_data.append(label)#folder_components[-2])
-                    X_data_flow_paths.append(flow_path_list)
-                    X_data_warped_paths.append(warped_path_list)
-                    X_data_diff_paths.append(diff_path_list)
+                    #X_data_flow_paths.append(flow_path_list)
+                    #X_data_warped_paths.append(warped_path_list)
+                    #X_data_diff_paths.append(diff_path_list)
                     if (len(X_data) == bs):                        
                         if label_type == "categorical":
                             Y_data = lb.transform(np.array(Y_data))
