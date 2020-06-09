@@ -30,7 +30,7 @@ channels = 3
 NUM_EPOCHS = 2  # 20
 BS = 8  # standard batch size is 32 või 64, but kernal dies with BS larger than 8
 
-print('Info\ndifficulty: {0} \nlabel type: {1} \nimage size: {3} \nepochs: {4} \nbatch size: BS '.format(difficulty,label_type,im_size, NUM_EPOCHS, BS))
+print('Info\ndifficulty: {0} \nlabel type: {1} \nimage size: {2} \nepochs: {3} \nbatch size: BS {4}'.format(difficulty,label_type,im_size, NUM_EPOCHS, BS))
 
 #############################################################################
 # BINARY MODEL
@@ -241,3 +241,28 @@ print('\nSaving model under name: ', model_file_name)
 modelB.save('saved_models/'+model_file_name)
 
 print('Completed with the training')
+
+#############################################################################
+## Saving  accuracy and loss plots
+#############################################################################
+
+import matplotlib.pyplot as plt
+# summarize history for accuracy
+plt.plot(historyB.history['accuracy'])
+plt.plot(historyB.history['val_accuracy'])
+#plt.title('model binary accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'validation'], loc='upper left')
+plt.savefig('images/accuracy_' + model_file_name + '.png',dpi=200)
+plt.show()
+
+# summarize history for loss
+plt.plot(historyB.history['loss'])
+plt.plot(historyB.history['val_loss'])
+#plt.title('model binary loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'validation'], loc='upper left')
+plt.savefig('images/loss_' + model_file_name + '.png',dpi=200)
+plt.show()
