@@ -1,3 +1,5 @@
+ # coding=utf-8
+    
 import keras
 import numpy as np
 import cv2
@@ -12,6 +14,9 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.preprocessing import LabelBinarizer
 from create_train_and_validation import create_train_and_validation_set
 from load_dataset_numpy import window
+
+import tensorflow as tf
+print('is gpu available?', tf.test.is_gpu_available())
 
 
 #############################################################################
