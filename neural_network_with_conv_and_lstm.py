@@ -1,5 +1,4 @@
- # coding=utf-8
-    
+# coding=utf-8
 import keras
 import numpy as np
 import cv2
@@ -32,10 +31,11 @@ time_steps = 16  # len of image sequence
 channels = 3
 
 # initialize the number of epochs to train for and batch size
-NUM_EPOCHS = 2  # 20
-BS = 8  # standard batch size is 32 või 64, but kernal dies with BS larger than 8
+NUM_EPOCHS = 1 #10
+BS = 5  # standard batch size is 32 või 64, but kernal dies with BS larger than 8
+learning_rate = 0.1
 
-print('Info\ndifficulty: {0} \nlabel type: {1} \nimage size: {2} \nepochs: {3} \nbatch size: BS {4}'.format(difficulty,label_type,im_size, NUM_EPOCHS, BS))
+print('Info\ndifficulty: {0} \nlabel type: {1} \nimage size: {2} \nepochs: {3} \nbatch size: {4}, \nlearning_rate: {5}'.format(difficulty,label_type,im_size, NUM_EPOCHS, BS,learning_rate))
 
 #############################################################################
 # BINARY MODEL
@@ -205,9 +205,9 @@ class ImageSequenceGenerator:
 # initialize the total number of training and testing sequences
 # ss = small sample
 ss = 0.01
-NUM_TRAIN_SEQ = round(count_train_seq*ss,0)
-NUM_VALID_SEQ = round(count_valid_seq*ss,0)
-NUM_TEST_SEQ = round(count_test_seq*ss,0)
+NUM_TRAIN_SEQ =round(count_train_seq*ss,0)# count_train_seq #round(count_train_seq*ss,0)
+NUM_VALID_SEQ =round(count_valid_seq*ss,0) # count_valid_seq #round(count_valid_seq*ss,0)
+NUM_TEST_SEQ =round(count_test_seq*ss,0)# count_test_seq #round(count_test_seq*ss,0)
 
 img_seq_gen_train = ImageSequenceGenerator()
 img_seq_gen_valid = ImageSequenceGenerator()
@@ -216,7 +216,7 @@ trainGenB = img_seq_gen_train.png_image_generator(path, bs=BS, mode="train", dif
 validGenB = img_seq_gen_valid.png_image_generator(path, bs=BS, mode="valid", difficulty=difficulty, label_type = label_type, aug=None)
 
 
-opt = Adam(lr=1e-2)
+opt = Adam(lr=learning_rate)
 
 if label_type == 'binary':
     modelB.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -241,7 +241,7 @@ historyB = modelB.fit(
 ## Saving the model
 #############################################################################
 
-model_file_name = 'model_' + difficulty + '_' + label_type + '_epochs' + str(NUM_EPOCHS) + '_bs' + str(BS) + '_imsize' + str(im_size)
+model_file_name = 'model_' + difficulty + '_' + label_type + '_epochs' + str(NUM_EPOCHS) + '_bs' + str(BS) + '_imsize' + str(im_size) + '_lr' + str(learning_rate)
 print('\nSaving model under name: ', model_file_name)
 modelB.save('saved_models/'+model_file_name)
 
@@ -260,7 +260,7 @@ plt.ylabel('accuracy')
 plt.xlabel('epoch')
 plt.legend(['train', 'validation'], loc='upper left')
 plt.savefig('images/accuracy_' + model_file_name + '.png',dpi=200)
-plt.show()
+#plt.show()
 
 # summarize history for loss
 plt.plot(historyB.history['loss'])
@@ -270,4 +270,4 @@ plt.ylabel('loss')
 plt.xlabel('epoch')
 plt.legend(['train', 'validation'], loc='upper left')
 plt.savefig('images/loss_' + model_file_name + '.png',dpi=200)
-plt.show()
+#plt.show()
