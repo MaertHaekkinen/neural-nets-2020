@@ -17,7 +17,7 @@ class ImageSequenceGenerator:
         self.lb.fit(list(labels))
  
     # label_type: "binary" or "categorical"
-    def png_image_generator(self, path, bs, folder_list, difficulty="All", sequence_limit=15, resize_dimension = 128, label_type = "categorical", aug=None):    
+    def png_image_generator(self, path, bs, folder_list, difficulty="All", sequence_limit=16, resize_dimension = 128, label_type = "categorical", aug=None):    
         f = open("{0}/{1}.txt".format(path, difficulty)) 
     
         while True:
@@ -29,7 +29,7 @@ class ImageSequenceGenerator:
 
                 label = folder.split("_")[-2]
 
-                folder += '/combination'
+                folder += '/difference'
                 images = [folder + "/" + f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
                 
                 img_list = [] #np.empty((16, 227,227,3)) # images from all the sequences

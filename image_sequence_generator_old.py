@@ -19,7 +19,7 @@ class ImageSequenceGeneratorOld:
 
 
     # label_type: "binary" or "categorical"
-    def png_image_generator(self, path, bs, folder_list, difficulty="All", sequence_limit=15, resize_dimension = 128, label_type = "categorical", aug=None):    
+    def png_image_generator(self, path, bs, folder_list, difficulty="All", sequence_limit=16, resize_dimension = 128, label_type = "categorical", aug=None):    
         f = open("{0}/{1}.txt".format(path, difficulty))
         self.folder_list = folder_list            
         
@@ -46,7 +46,7 @@ class ImageSequenceGeneratorOld:
 
                 # split the images into sequneces of length 15
                 #(e.g. folder contains 20 images, then first seq is 1-15, second seq 2-17, third seq 3-18 etc)
-                for each in window(images, 15):
+                for each in window(images, 16):
                     img_seq_list = [] # only images from one 15 image sequence,  size will be (15, 227,227,3)
                     one_images_seq = np.array(each) # 1-15, 2-17, etc
 
